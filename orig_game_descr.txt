@@ -1,0 +1,8 @@
+Tic Tac Toe - Game derscription
+
+The developed game runs in console. It is currently a two-player game 
+where players can place signs via the numeric keypad. The game detects whether a player won the game
+or the field is full without anyone winning (i.e. draw). The game can be started or quitted from a game menu 
+that is displayed when the program is launched.
+
+Screenshot from the running game is to be found in current folder as Tic Tac Toe.png.
