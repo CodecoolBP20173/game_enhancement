@@ -1,4 +1,8 @@
+import string
+
 field= []
+
+
 def print_field():    # print empty field with nested lists
 
     field_size = int(input("Set field size(3-4-5): "))
@@ -18,38 +22,7 @@ def print_field():    # print empty field with nested lists
             line = line + str(field[i][j]) + " | "
         print(line)
         line = "| "
-    
 
-def check_empty(m):  # TO BE UPDATED
-    empty = False
-    if m == "7":
-        if field[0][0] == " ":
-            empty = True
-    elif m == "8":
-        if field[0][1] == " ":
-            empty = True
-    elif m == "9":
-        if field[0][2] == " ":
-            empty = True
-    elif m == "4":
-        if field[1][0] == " ":
-            empty = True
-    elif m == "5":
-        if field[1][1] == " ":
-            empty = True
-    elif m == "6":
-        if field[1][2] == " ":
-            empty = True
-    elif m == "1":
-        if field[2][0] == " ":
-            empty = True
-    elif m == "2":
-        if field[2][1] == " ":
-            empty = True
-    elif m == "3":
-        if field[2][2] == " ":
-            empty = True
-    return empty
 
 def move_interpreter(m):
     alphabet = string.ascii_lowercase
@@ -57,6 +30,15 @@ def move_interpreter(m):
     y = int(m[1]) - 1
     coordinates = [x, y]
     return coordinates
+
+
+def check_empty(m):  # TO BE UPDATED
+    coordinates = move_interpreter(m)
+    if field[coordinates[0]][coordinates[1]] == "  ":
+        return True
+    else:
+        return False
+
 
 def move(player, m):  # TO BE UPDATED
     if m == "7":
@@ -90,6 +72,15 @@ def full_check():     # TO BE UPDATED
     return full
 
 
+def move(player, m):  # TO BE UPDATED
+    while True:
+        x = m[0]
+        y = m[1]
+        if x > (field_size - 1) or y > (field_size - 1):
+            print("Please enter valid coordinates")
+        field[x][y] = player
+
+
 def win_check():      # TO BE UPDATED
     winner = " "
     won = False
@@ -109,18 +100,18 @@ def win_check():      # TO BE UPDATED
     return won
 
 
-def clear_board():    # TO BE UPDATED
-    for i in range(3):
-        for j in range(3):
-            field[i][j] = " "
+#def clear_board():    # TO BE UPDATED
+ #   for i in range(3):
+  #      for j in range(3):
+   #         field[i][j] = " "
 
 
 def load_game():
-    clear_board()
+  #  clear_board()
 
     print_field()
     winner = " "
-    m= " "
+    m= "  "
     while True:
         while check_empty(m) == False:
             m = str(input("X move?"))
@@ -168,4 +159,3 @@ def display_menu():
 
 
 display_menu()
-
