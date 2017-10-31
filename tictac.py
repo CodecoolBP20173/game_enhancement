@@ -1,7 +1,19 @@
 
 def print_field():    # print empty field with nested lists
-    for i in range(3):   
-        print("| ", field[i][0], " | ", field[i][1], " | ", field[i][2], " |")
+    field_size = int(input("Set field size(3-4-5): "))
+
+    field = []
+
+    for i in range(field_size):
+        field.append([" "])
+        for j in range(field_size):
+            field[i].append(" ")   
+
+    for i in range(field_size):   
+        line = line + "| "
+    print(line)
+    
+    #    print("| ", field[i][0], " | ", field[i][1], " | ", field[i][2], " |")
 
 
 def check_empty(m):  # return true if board has empty cells
@@ -143,8 +155,7 @@ def display_menu():
         elif user_input == "r":
             continue
 
-field = [[" "," "," "],
-         [" "," "," "],
-         [" "," "," "],]
+
+
 display_menu()
 
