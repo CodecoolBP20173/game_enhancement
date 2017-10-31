@@ -1,5 +1,6 @@
-
+field= []
 def print_field():    # print empty field with nested lists
+
     field_size = int(input("Set field size(3-4-5): "))
 
     field = []
@@ -8,15 +9,18 @@ def print_field():    # print empty field with nested lists
         field.append([" "])
         for j in range(field_size):
             field[i].append(" ")   
-
-    for i in range(field_size):   
-        line = line + "| "
-    print(line)
     
-    #    print("| ", field[i][0], " | ", field[i][1], " | ", field[i][2], " |")
 
+    line="| "
 
-def check_empty(m):  # return true if board has empty cells
+    for j in range(field_size):
+        for i in range(field_size):   
+            line = line + str(field[i][j]) + " | "
+        print(line)
+        line = "| "
+    
+
+def check_empty(m):  # TO BE UPDATED
     empty = False
     if m == "7":
         if field[0][0] == " ":
@@ -48,7 +52,7 @@ def check_empty(m):  # return true if board has empty cells
     return empty
 
 
-def move(player, m):  # place variable at chosen field via numpad
+def move(player, m):  # TO BE UPDATED
     if m == "7":
         field[0][0] = player
     elif m == "8":
@@ -69,7 +73,7 @@ def move(player, m):  # place variable at chosen field via numpad
         field[2][2] = player
 
 
-def full_check():     # return True if board has no more empty cells
+def full_check():     # TO BE UPDATED
 
     full = True
     for i in range(3):
@@ -80,7 +84,7 @@ def full_check():     # return True if board has no more empty cells
     return full
 
 
-def win_check():      # return True if either player won the game
+def win_check():      # TO BE UPDATED
     winner = " "
     won = False
     for i in range(3):
@@ -99,7 +103,7 @@ def win_check():      # return True if either player won the game
     return won
 
 
-def clear_board(): 
+def clear_board():    # TO BE UPDATED
     for i in range(3):
         for j in range(3):
             field[i][j] = " "
