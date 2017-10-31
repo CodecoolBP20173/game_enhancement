@@ -22,21 +22,22 @@ def print_field():    # print empty field with nested lists
 
 
 def move_interpreter(m):
-    if m == "start":
-        coordinates = [0,0]
-    else:
-        alphabet = string.ascii_lowercase
-        x = int(alphabet.index(m[0]))
-        y = int(m[1]) - 1
-        coordinates = [x, y]
+
+    alphabet = string.ascii_lowercase
+    x = int(alphabet.index(m[0]))
+    y = int(m[1]) - 1
+    coordinates = [x, y]
     return coordinates
 
 
 def check_empty(m):  # TO BE UPDATED
-    check_empty = False
-    coordinates = move_interpreter(m)
-    if field[coordinates[0]][coordinates[1]] == " ":
-        check_empty = True
+    if m == "start":
+        check_empty = False
+    else:
+        check_empty = False
+        coordinates = move_interpreter(m)
+        if field[coordinates[0]][coordinates[1]] == " ":
+            check_empty = True
     
     return check_empty
 
@@ -56,7 +57,6 @@ def full_check():     # TO BE UPDATED
 def move(player, m):  # TO BE UPDATED
     coordinates = move_interpreter(m)
     field[coordinates[0]][coordinates[1]] = player
-
 
 
 '''
