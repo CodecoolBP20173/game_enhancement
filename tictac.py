@@ -47,6 +47,12 @@ def check_empty(m):  # return true if board has empty cells
             empty = True
     return empty
 
+def move_interpreter(m):
+    alphabet = string.ascii_lowercase
+    x = int(alphabet.index(m[0]))
+    y = int(m[1]) - 1
+    coordinates = [x, y]
+    return coordinates
 
 def move(player, m):  # place variable at chosen field via numpad
     if m == "7":
