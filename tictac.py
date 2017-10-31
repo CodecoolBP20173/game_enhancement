@@ -1,13 +1,10 @@
 import string
 
-field= []
+field = []
 
 
 def print_field():    # print empty field with nested lists
 
-    field_size = int(input("Set field size(3-4-5): "))
-
-    field = []
 
     for i in range(field_size):
         field.append([" "])
@@ -15,7 +12,7 @@ def print_field():    # print empty field with nested lists
             field[i].append(" ")   
     
 
-    line="| "
+    line = "| "
 
     for j in range(field_size):
         for i in range(field_size):   
@@ -25,42 +22,26 @@ def print_field():    # print empty field with nested lists
 
 
 def move_interpreter(m):
-    alphabet = string.ascii_lowercase
-    x = int(alphabet.index(m[0]))
-    y = int(m[1]) - 1
-    coordinates = [x, y]
+    if m == "start":
+        coordinates = [0,0]
+    else:
+        alphabet = string.ascii_lowercase
+        x = int(alphabet.index(m[0]))
+        y = int(m[1]) - 1
+        coordinates = [x, y]
     return coordinates
 
 
 def check_empty(m):  # TO BE UPDATED
+    check_empty = False
     coordinates = move_interpreter(m)
-    if field[coordinates[0]][coordinates[1]] == "  ":
-        return True
-    else:
-        return False
+    if field[coordinates[0]][coordinates[1]] == " ":
+        check_empty = True
+    
+    return check_empty
 
 
-def move(player, m):  # TO BE UPDATED
-    if m == "7":
-        field[0][0] = player
-    elif m == "8":
-        field[0][1] = player
-    elif m == "9":
-        field[0][2] = player
-    elif m == "4":
-        field[1][0] = player
-    elif m == "5":
-        field[1][1] = player
-    elif m == "6":
-        field[1][2] = player
-    elif m == "1":
-        field[2][0] = player
-    elif m == "2":
-        field[2][1] = player
-    elif m == "3":
-        field[2][2] = player
-
-
+'''
 def full_check():     # TO BE UPDATED
 
     full = True
@@ -70,17 +51,15 @@ def full_check():     # TO BE UPDATED
                 full = False
 
     return full
-
+'''
 
 def move(player, m):  # TO BE UPDATED
-    while True:
-        x = m[0]
-        y = m[1]
-        if x > (field_size - 1) or y > (field_size - 1):
-            print("Please enter valid coordinates")
-        field[x][y] = player
+    coordinates = move_interpreter(m)
+    field[coordinates[0]][coordinates[1]] = player
 
 
+
+'''
 def win_check():      # TO BE UPDATED
     winner = " "
     won = False
@@ -98,27 +77,30 @@ def win_check():      # TO BE UPDATED
         won = True
     
     return won
-
-
+'''
+'''
 #def clear_board():    # TO BE UPDATED
  #   for i in range(3):
   #      for j in range(3):
    #         field[i][j] = " "
-
+'''
 
 def load_game():
+    global field_size
+    field_size = int(input("Set field size(3-4-5): "))
+
   #  clear_board()
 
     print_field()
     winner = " "
-    m= "  "
+    m = "start"
+
     while True:
         while check_empty(m) == False:
             m = str(input("X move?"))
         move("X", m)
-
         print_field()
-
+        '''
         if win_check() == True:
             print("X won")
             display_menu()
@@ -126,12 +108,13 @@ def load_game():
         if full_check() == True:
             print("DRAW")
             display_menu()
+        '''
 
         while check_empty(m) == False:
             m = str(input("O move?"))
         move("O", m)
         print_field()
-
+        '''
         if win_check() == True:
             print("0 won")
             display_menu()
@@ -139,7 +122,7 @@ def load_game():
         if full_check() == True:
             print("Draw.")
             display_menu()
-
+        '''
 
 def display_menu():
     menu_dict= {"s: ":"Start game", "q: ":"Quit game"}
