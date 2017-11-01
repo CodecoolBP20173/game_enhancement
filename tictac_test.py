@@ -7,6 +7,7 @@ player_o_win = 0
 
 
 def print_field():    # print empty field with nested lists
+    alphabet = string.ascii_lowercase
     print("\n" * 50)
 
     for i in range(field_size):
@@ -16,10 +17,16 @@ def print_field():    # print empty field with nested lists
     
 
     line = "| "
+    letters = "  "
+    for i in range(field_size):
+        letters += alphabet[i] + "   "
+    
+    print(letters)
 
     for j in range(field_size):
         for i in range(field_size):   
             line = line + str(field[i][j]) + " | "
+        line = line + str(j + 1)
         print(line)
         line = "| "
     
@@ -110,17 +117,22 @@ def load_game():
     while True:
         while check_empty(m) == False:
             while True:
-                m = str(input(player_x + " move? (X)"))
+                m = str(input(player_x + " move? (X) -- for exit press \"r\"  "))
                 if m == "r":
+                    print("\nThe final score is: " + player_x + ": " + str(player_x_win) + " - " + player_o + ": " + str(player_o_win))
                     print("Thank you for playing. Good bye!")
                     exit()
                 else:
-                    coordinates = move_interpreter(m)
-                    if coordinates[0] < field_size and coordinates[1] < field_size:
-                        break
+                    if len(m) == 2 and m[0].isalpha() and m[1].isnumeric():
+                        coordinates = move_interpreter(m)
+                        if coordinates[0] < field_size and coordinates[1] < field_size:
+                            break
+                        else:
+                            print("Please enter a valid field position!")
+                            continue
                     else:
                         print("Please enter a valid field position!")
-                        continue
+            print("This position is already taken. Please choose another one.")
 
         move("X", m)
         print_field()
@@ -140,18 +152,23 @@ def load_game():
 
         while check_empty(m) == False:
             while True:
-                m = str(input(player_o + " move? (O)"))
+                m = str(input(player_o + " move? (O) -- for exit press \"r\"  "))
                 if m == "r":
+                    print("\nThe final score is: " + player_x + ": " + str(player_x_win) + " - " + player_o + ": " + str(player_o_win))
                     print("Thank you for playing. Good bye!")
                     exit()
                 else:
-                    coordinates = move_interpreter(m)
-                    if coordinates[0] < field_size and coordinates[1] < field_size:
-                        break
+                    if len(m) == 2 and m[0].isalpha() and m[1].isnumeric():
+                        coordinates = move_interpreter(m)
+                        if coordinates[0] < field_size and coordinates[1] < field_size:
+                            break
+                        else:
+                            print("Please enter a valid field position!")
+                            continue
                     else:
                         print("Please enter a valid field position!")
-                        continue
-            
+            print("This position is already taken. Please choose another one.")
+                
         move("O", m)
         print_field()
         
