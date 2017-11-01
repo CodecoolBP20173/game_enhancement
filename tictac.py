@@ -30,7 +30,7 @@ def move_interpreter(m):
     return coordinates
 
 
-def check_empty(m):  # TO BE UPDATED
+def check_empty(m):  
     if m == "start":
         check_empty = False
     else:
@@ -42,54 +42,52 @@ def check_empty(m):  # TO BE UPDATED
     return check_empty
 
 
-'''
-def full_check():     # TO BE UPDATED
+def full_check():     
 
     full = True
-    for i in range(3):
-        for j in range(3):
+    for i in range(field_size):
+        for j in range(field_size):
             if field[i][j] == " ":
                 full = False
 
     return full
-'''
 
-def move(player, m):  # TO BE UPDATED
+
+def move(player, m):  
     coordinates = move_interpreter(m)
     field[coordinates[0]][coordinates[1]] = player
 
 
-'''
-def win_check():      # TO BE UPDATED
+def win_check():      
     winner = " "
     won = False
-    for i in range(3):
-        if (field[i][0] == field[i][1] and field[i][0] == field[i][2]) and (field[i][0] == "X" or field[i][0] == "O"):
-            won = True
-           
-        if (field[0][i] == field[1][i] and field[1][i] == field[2][i]) and (field[0][i] == "X" or field[0][i] == "O"):
-            won = True
-          
-    if (field[0][0] == field[1][1] and field[0][0] == field[2][2]) and (field[0][0] == "X" or field[0][0] == "O"):
-        won = True
-         
-    if (field[0][2] == field[1][1] and field[0][2] == field[2][0]) and (field[0][2] == "X" or field[0][2] == "O"):
-        won = True
-    
+    for i in range(field_size):
+        for j in range(field_size):
+            if field[i][j] == "X" or field[i][j] == "O":
+                try:
+                    if field[i][j] == field[i+1][j] and field[i][j] == field[i+2][j]:
+                        won = True
+                    elif field[i][j] == field[i][j+1] and field[i][j] == field[i][j+2]:
+                        won = True    
+                    elif field[i][j] == field[i+1][j+1] and field[i][j] == field[i+2][j+2]:
+                        won = True
+                    elif field[i][j] == field[i-1][j-1] and field[i][j] == field[i-2][j-2]:
+                        won = True
+                except IndexError:
+                    continue    
     return won
-'''
-'''
-#def clear_board():    # TO BE UPDATED
- #   for i in range(3):
-  #      for j in range(3):
-   #         field[i][j] = " "
-'''
+
+
+def clear_board():    
+    for i in range(field_size):
+        for j in range(field_size):
+            field[i][j] = " "
+
 
 def load_game():
     global field_size
     field_size = int(input("Set field size(3-4-5): "))
 
-  #  clear_board()
 
     print_field()
     winner = " "
@@ -100,29 +98,34 @@ def load_game():
             m = str(input("X move?"))
         move("X", m)
         print_field()
-        '''
+        
         if win_check() == True:
             print("X won")
+            clear_board()
             display_menu()
-
+        
         if full_check() == True:
             print("DRAW")
+            clear_board()
             display_menu()
-        '''
+        
 
         while check_empty(m) == False:
             m = str(input("O move?"))
         move("O", m)
         print_field()
-        '''
+        
         if win_check() == True:
             print("0 won")
+            clear_board()
             display_menu()
+        
 
         if full_check() == True:
             print("Draw.")
+            clear_board()
             display_menu()
-        '''
+        
 
 def display_menu():
     menu_dict= {"s: ":"Start game", "q: ":"Quit game"}
@@ -138,7 +141,6 @@ def display_menu():
             exit()
         elif user_input == "r":
             continue
-
 
 
 display_menu()
