@@ -206,7 +206,13 @@ def add_name():
     global player_x
     global player_o
     player_x = input("Please enter Player X name: ")
-    player_o = input("Please enter Player O name: ")
+    while True:
+        player_o = input("Please enter Player O name: ")
+        if player_o == player_x:
+            print("This name is occuped. Please enter another one.")
+            continue
+        else:
+            break
     display_menu()
 
 
