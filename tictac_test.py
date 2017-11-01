@@ -80,7 +80,7 @@ def win_check():
                         won = True    
                     elif field[i][j] == field[i+1][j+1] and field[i][j] == field[i+2][j+2]:
                         won = True
-                    elif field[i][j] == field[i-1][j-1] and field[i][j] == field[i-2][j-2]:
+                    elif field[i][j] == field[i+1][j-1] and field[i][j] == field[i+2][j-2]:
                         won = True
                 except IndexError:
                     continue    
