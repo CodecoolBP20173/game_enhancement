@@ -12,15 +12,7 @@ def init_variables():
     '''
     global field
     global m
-    global player_o_win
-    global player_x_win
-    global player_x
-    global player_o
     field = []
-    player_x_win = 0
-    player_o_win = 0
-    player_x = " "
-    player_o = " "
     for i in range(field_size):
         field.append([" "])
         for j in range(field_size):
@@ -96,7 +88,7 @@ def exit_game():
     exit()    
 
 
-def move(player, m):
+def move(player, m, player_name):
     ''' Takes player and m as arguments. Places given player's sign to chosen field spot.
     The two player's signs are printed via different color.
     '''
@@ -104,7 +96,7 @@ def move(player, m):
     # Checks before move
     while check_empty(m) == False:
         while True:
-            m = str(input(player_x + " move? (X) -- for exit press \"r\"  "))
+            m = str(input(player_name + " move? (" + player + ") -- for exit press \"r\"  "))
 
             if m == "r":
                 exit_game()
@@ -127,7 +119,7 @@ def move(player, m):
                         continue
                 else:
                     print("Please enter a valid field position!")
-    print("This position is already taken. Please choose another one.")
+        print("This position is already taken. Please choose another one.")
     coordinates = move_interpreter(m)
     
     # The move itself
@@ -172,6 +164,9 @@ def load_game():
     global field_size
     global player_x_win
     global player_o_win
+    global player_x
+    global player_o
+
     while True:
         field_size = input("\nSet field size (5x5 - 12x12). Enter digits only: ")
         if field_size.isnumeric() == True:
@@ -191,7 +186,7 @@ def load_game():
 
     while True:
 
-        move("X", m)
+        move("X", m, player_x)
         print_field()
         
         if win_check() == True:
@@ -206,7 +201,7 @@ def load_game():
             clear_board()
             display_menu()
                 
-        move("O", m)
+        move("O", m, player_o)
         print_field()
         
         if win_check() == True:
@@ -244,10 +239,22 @@ def display_menu():
 def add_name():
     ''' Asks for two names to set the two player variables.
     '''
+    global player_o_win
+    global player_x_win
+    global player_x
+    global player_o
+    player_x_win = 0
+    player_o_win = 0
+    player_x = " "
+    player_o = " "
 
-    player_x = input("Please enter Player X name: ")
+    print("\033[1;31m" + "Tic" + "\033[0m")
+    print("      Tac")
+    print("            \033[1;32m" + "Toe" + "\033[0m")
+    print("                  five-in-a-row edition\n")
+    player_x = input("Please enter Player 'X' name: ")
     while True:
-        player_o = input("Please enter Player O name: ")
+        player_o = input("Please enter Player 'O' name: ")
         if player_o == player_x:
             print("This name is occuped. Please enter another one.")
             continue
@@ -259,7 +266,6 @@ def main():
 
     add_name()
     display_menu()
-
 
 if __name__ == '__main__':
     main()
