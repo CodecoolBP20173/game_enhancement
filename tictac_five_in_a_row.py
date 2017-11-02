@@ -1,22 +1,37 @@
 import string
 
 
-
-field = []
-player_x_win = 0
-player_o_win = 0
-
-
-
-def print_field():    # print empty field with nested lists
-    alphabet = string.ascii_lowercase
-    print("\n" * 50)
-
+def init_variables():
+    ''' Initialize variables: 
+    field = nested list initialized based on chosen field size
+    m = player's move given as coordinates
+    player_o_win: counter variable for player o's wins 
+    player_x_win: counter variable for player x's wins
+    player_x: player_x's name given in add_name fuction
+    player_o: player_o's name given in add_name fuction
+    '''
+    global field
+    global m
+    global player_o_win
+    global player_x_win
+    global player_x
+    global player_o
+    field = []
+    player_x_win = 0
+    player_o_win = 0
+    player_x = " "
+    player_o = " "
     for i in range(field_size):
         field.append([" "])
         for j in range(field_size):
-            field[i].append(" ")   
-    
+            field[i].append(" ")
+
+
+def print_field():
+    ''' Prints field via field nested list
+    '''
+    alphabet = string.ascii_lowercase
+    print("\n" * 50)
 
     line = "| "
     letters = "  "
@@ -32,9 +47,11 @@ def print_field():    # print empty field with nested lists
         line = line + str(j + 1) + "\n" + "-" * (field_size * 4)
         print(line)
         line = "| "
-    
-def move_interpreter(m):
 
+
+def move_interpreter(m):
+    '''Interprets given move from alphabet + number type coordinates to nested list coordinates.
+    '''
     alphabet = string.ascii_lowercase
     x = int(alphabet.index(m[0]))
     if len(m) > 2:
@@ -46,6 +63,9 @@ def move_interpreter(m):
 
 
 def check_empty(m):  
+    ''' Takes m argument and converts it into field coordinates, then checks wheter field list item is empty. 
+    Returns true if given field is empty.
+    '''
     if m == "start":
         check_empty = False
     else:
@@ -58,7 +78,9 @@ def check_empty(m):
 
 
 def full_check():     
-
+    ''' Iterates through the field to search for empty positions.
+    Returns True if entire field is full.
+    '''
     full = True
     for i in range(field_size):
         for j in range(field_size):
@@ -68,15 +90,57 @@ def full_check():
     return full
 
 
+def exit_game():
+    print("\nThe final score is: " + player_x + ": " + str(player_x_win) + " - " + player_o + ": " + str(player_o_win))
+    print("Thank you for playing. Good bye!")
+    exit()    
+
+
 def move(player, m):
+    ''' Takes player and m as arguments. Places given player's sign to chosen field spot.
+    The two player's signs are printed via different color.
+    '''
+
+    # Checks before move
+    while check_empty(m) == False:
+        while True:
+            m = str(input(player_x + " move? (X) -- for exit press \"r\"  "))
+
+            if m == "r":
+                exit_game()
+            
+            else:
+                if len(m) == 2 and m[0] in string.ascii_lowercase and m[1].isnumeric():
+                    coordinates = move_interpreter(m)
+                    if coordinates[0] < field_size and coordinates[1] < field_size:
+                        break
+                    else:
+                        print("Please enter a valid field position!")
+                        continue
+
+                elif len(m) == 3 and m[0].isalpha() and m[1].isnumeric() and m[2].isnumeric():
+                    coordinates = move_interpreter(m)
+                    if coordinates[0] < field_size and coordinates[1] < field_size:
+                        break
+                    else:
+                        print("Please enter a valid field position!")
+                        continue
+                else:
+                    print("Please enter a valid field position!")
+    print("This position is already taken. Please choose another one.")
     coordinates = move_interpreter(m)
+    
+    # The move itself
     if player == "X":
         field[coordinates[0]][coordinates[1]] = "\033[1;31m" + player + "\033[0m"
     else:
         field[coordinates[0]][coordinates[1]] = "\033[1;32m" + player + "\033[0m"
 
 
-def win_check():      
+def win_check():
+    ''' Iterates through the entire field searching for 5-in-a-row signs. First two if statements search vertically and horizontally
+    while last two if statements search diagonally. 
+    '''
     winner = " "
     won = False
     for i in range(field_size):
@@ -96,7 +160,9 @@ def win_check():
     return won
 
 
-def clear_board():    
+def clear_board():
+    ''' Clears board via placing spaces to every field spot via iteration.
+    '''
     for i in range(field_size):
         for j in range(field_size):
             field[i][j] = " "
@@ -118,37 +184,12 @@ def load_game():
         else:
             print("Please enter a digit between 5 and 12!")
             continue
-
+    init_variables()
     print_field()
     winner = " "
     m = "start"
 
     while True:
-        while check_empty(m) == False:
-            while True:
-                m = str(input(player_x + " move? (X) -- for exit press \"r\"  "))
-                if m == "r":
-                    print("\nThe final score is: " + player_x + ": " + str(player_x_win) + " - " + player_o + ": " + str(player_o_win))
-                    print("Thank you for playing. Good bye!")
-                    exit()
-                else:
-                    if len(m) == 2 and m[0].isalpha() and m[1].isnumeric():
-                        coordinates = move_interpreter(m)
-                        if coordinates[0] < field_size and coordinates[1] < field_size:
-                            break
-                        else:
-                            print("Please enter a valid field position!")
-                            continue
-                    elif len(m) == 3 and m[0].isalpha() and m[1].isnumeric() and m[2].isnumeric():
-                        coordinates = move_interpreter(m)
-                        if coordinates[0] < field_size and coordinates[1] < field_size:
-                            break
-                        else:
-                            print("Please enter a valid field position!")
-                            continue
-                    else:
-                        print("Please enter a valid field position!")
-            print("This position is already taken. Please choose another one.")
 
         move("X", m)
         print_field()
@@ -164,33 +205,6 @@ def load_game():
             print("DRAW")
             clear_board()
             display_menu()
-        
-
-        while check_empty(m) == False:
-            while True:
-                m = str(input(player_o + " move? (O) -- for exit press \"r\"  "))
-                if m == "r":
-                    print("\nThe final score is: " + player_x + ": " + str(player_x_win) + " - " + player_o + ": " + str(player_o_win))
-                    print("Thank you for playing. Good bye!")
-                    exit()
-                else:
-                    if len(m) == 2 and m[0].isalpha() and m[1].isnumeric():
-                        coordinates = move_interpreter(m)
-                        if coordinates[0] < field_size and coordinates[1] < field_size:
-                            break
-                        else:
-                            print("Please enter a valid field position!")
-                            continue
-                    elif len(m) == 3 and m[0].isalpha() and m[1].isnumeric() and m[2].isnumeric():
-                        coordinates = move_interpreter(m)
-                        if coordinates[0] < field_size and coordinates[1] < field_size:
-                            break
-                        else:
-                            print("Please enter a valid field position!")
-                            continue
-                    else:
-                        print("Please enter a valid field position!")
-            print("This position is already taken. Please choose another one.")
                 
         move("O", m)
         print_field()
@@ -207,10 +221,11 @@ def load_game():
             print("Draw.")
             clear_board()
             display_menu()
-        
+
 
 def display_menu():
-
+    ''' 
+    '''
     print("\ns: Start game")
     print("q: Quit game\n")
     
@@ -225,9 +240,11 @@ def display_menu():
         else:
             print("Please use 's' or 'q' buttons.")
 
+
 def add_name():
-    global player_x
-    global player_o
+    ''' Asks for two names to set the two player variables.
+    '''
+
     player_x = input("Please enter Player X name: ")
     while True:
         player_o = input("Please enter Player O name: ")
@@ -236,7 +253,13 @@ def add_name():
             continue
         else:
             break
+    
+
+def main():
+
+    add_name()
     display_menu()
 
 
-add_name()
+if __name__ == '__main__':
+    main()
